@@ -1,6 +1,7 @@
 package com.raywenderlich.android.cocktails.game.model
 
 class Question(
+    val question:String,
     val correctOption: String,
     val incorrectOption: String
 ) {
@@ -16,5 +17,12 @@ class Question(
 
         answerOption = answer
        return isAnsweredCorrectly
+    }
+
+    fun getOptions():List<String> {
+        return listOf(
+            correctOption,
+            incorrectOption
+        )
     }
 }

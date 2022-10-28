@@ -10,7 +10,7 @@ class QuestionTest {
 
     @Before
     fun setup() {
-        question = Question("correct", "incorrect")
+        question = Question("", "Cairo", "Giza")
     }
 
     @Test
@@ -58,5 +58,16 @@ class QuestionTest {
         // Act
         val actual = question.addAnswer("not valid")
 
+    }
+
+    @Test
+    fun `getOptions(), then return shuffled list of options`() {
+        // Arrange
+        val expected = QUESTIONS_MOCK[0].getOptions()
+        // Act
+        val actual = question.getOptions()
+
+        // Assert
+        Assert.assertEquals(expected, actual)
     }
 }
