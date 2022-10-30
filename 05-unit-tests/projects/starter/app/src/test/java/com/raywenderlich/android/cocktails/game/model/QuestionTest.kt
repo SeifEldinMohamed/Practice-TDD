@@ -10,7 +10,7 @@ class QuestionTest {
 
     @Before
     fun setup() {
-        question = Question("", "Cairo", "Giza")
+        question = Question("", "correct", "incorrect")
     }
 
     @Test

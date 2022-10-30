@@ -3,17 +3,17 @@ package com.raywenderlich.android.cocktails.game.model
 val QUESTIONS_MOCK: List<Question> = listOf(
     Question(
         "what is the capital of egypt?",
-        "Cairo",
-        "Giza"
+        "correct",
+        "incorrect"
     ),
     Question(
         "what is the capital of USA?",
-        "Washington",
-        "New York"
+        "correct",
+        "incorrect"
     ),
     Question(
         "what is the capital of France?",
-        "Paris",
-        "Cairo"
+        "correct",
+        "incorrect"
     )
 )

@@ -28,46 +28,11 @@ class GameTest {
     }
      */
 
-    @Test
-    fun `incrementScore(), then increment current score`() {
-        // Arrange
-        val game = Game(QUESTIONS_MOCK)
-
-        // Act
-        game.incrementScore()
-
-        // Assert
-        Assert.assertEquals(1, game.currentScore)
-    }
-
-    @Test
-    fun `incrementScore(), with current score is above highest score, then increment highest score` () {
-        // Arrange
-        val game = Game(QUESTIONS_MOCK)
-
-        // Act
-        game.incrementScore()
-
-        // Assert
-        Assert.assertEquals(1, game.highestScore)
-    }
-
-    @Test
-    fun `incrementScore(), with current score is below highest score, then don't increment highest score` () {
-        // Arrange
-        val game = Game(QUESTIONS_MOCK,10)
-
-        // Act
-        game.incrementScore()
-
-        // Assert
-        Assert.assertEquals(10, game.highestScore)
-    }
 
     @Test
     fun `nextQuestion(), with available next question, then return next question` () {
         // Arrange
-        val game = Game(QUESTIONS_MOCK,10)
+        val game = Game(QUESTIONS_MOCK)
         val expected = Question(
             "what is the capital of USA?",
             "Washington",
@@ -84,7 +49,7 @@ class GameTest {
     @Test
     fun `nextQuestion(), with final question reached, then return null` () {
         // Arrange
-        val game = Game(QUESTIONS_MOCK,10)
+        val game = Game(QUESTIONS_MOCK)
 
         // Act
         val actual = game.nextQuestion(QUESTIONS_MOCK.size - 1)
@@ -113,12 +78,13 @@ class GameTest {
         // Using whenever/method/thenReturn you’re
         // stubbing the question.answer() method to always return true. Notice here
         // you used the anyString() argument matcher as you don’t care which specific
+        val score = mock<Score>()
         // String you need to stub the call
-        val game = Game(listOf(question))
+        val game = Game(listOf(question),score)
         // Act
         game.answer(question, "Option")
         // Assert
-        Assert.assertEquals(1, game.currentScore)
+        verify(score).increment()
     }
 
     @Test
@@ -126,15 +92,13 @@ class GameTest {
         // Arrange
         val question = mock<Question>()
         whenever(question.addAnswer(anyString())).thenReturn(false)
-        // Using whenever/method/thenReturn you’re
-        // stubbing the question.answer() method to always return true. Notice here
-        // you used the anyString() argument matcher as you don’t care which specific
-        // String you need to stub the call
-        val game = Game(listOf(question))
+
+        val score = mock<Score>()
+        val game = Game(listOf(question),score)
         // Act
         game.answer(question, "Option")
         // Assert
-        Assert.assertEquals(0, game.currentScore)
+        verify(score, never()).increment()
     }
     /*
     Verify the method answer() was called on the Question mock. You used the
