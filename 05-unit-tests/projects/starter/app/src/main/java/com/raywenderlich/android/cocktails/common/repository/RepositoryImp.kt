@@ -15,32 +15,32 @@ class RepositoryImpl(
   private val sharedPreferences: SharedPreferences
   ) : Repository {
 
-//  private var getAlcoholicCall: Call<CocktailsContainer>? = null
-//
-//  override fun getAlcoholic(callback: RepositoryCallback<List<Cocktail>, String>) {
-//    getAlcoholicCall?.cancel()
-//    getAlcoholicCall = api.getAlcoholic()
-//    getAlcoholicCall?.enqueue(wrapCallback(callback))
-//  }
+  private var getAlcoholicCall: Call<CocktailsContainer>? = null
 
-//  private fun wrapCallback(callback: RepositoryCallback<List<Cocktail>, String>) =
-//    object : Callback<CocktailsContainer> {
-//      override fun onResponse(call: Call<CocktailsContainer>?,
-//                              response: Response<CocktailsContainer>?) {
-//        if (response != null && response.isSuccessful) {
-//          val cocktailsContainer = response.body()
-//          if (cocktailsContainer != null) {
-//            callback.onSuccess(cocktailsContainer.drinks ?: emptyList())
-//            return
-//          }
-//        }
-//        callback.onError("Couldn't get cocktails")
-//      }
-//
-//      override fun onFailure(call: Call<CocktailsContainer>?, t: Throwable?) {
-//        callback.onError("Couldn't get cocktails")
-//      }
-//    }
+  override fun getAlcoholic(callback: RepositoryCallback<List<Cocktail>, String>) {
+    getAlcoholicCall?.cancel()
+    getAlcoholicCall = api.getAlcoholic()
+    getAlcoholicCall?.enqueue(wrapCallback(callback))
+  }
+
+  private fun wrapCallback(callback: RepositoryCallback<List<Cocktail>, String>) =
+    object : Callback<CocktailsContainer> {
+      override fun onResponse(call: Call<CocktailsContainer>?,
+                              response: Response<CocktailsContainer>?) {
+        if (response != null && response.isSuccessful) {
+          val cocktailsContainer = response.body()
+          if (cocktailsContainer != null) {
+            callback.onSuccess(cocktailsContainer.drinks ?: emptyList())
+            return
+          }
+        }
+        callback.onError("Couldn't get cocktails")
+      }
+
+      override fun onFailure(call: Call<CocktailsContainer>?, t: Throwable?) {
+        callback.onError("Couldn't get cocktails")
+      }
+    }
 
   override fun saveHighScore(score: Int) {
     val highScore = getHighScore()
