@@ -1,9 +1,10 @@
 package com.raywenderlich.android.cocktails.game.model
 
 class Question(
-    val question:String,
+    val question: String?=null,
     val correctOption: String,
-    val incorrectOption: String
+    val incorrectOption: String,
+    val imageUrl: String?=null
 ) {
     var answerOption: String? = null
         private set
@@ -16,10 +17,10 @@ class Question(
             throw IllegalArgumentException("Not a valid option")
 
         answerOption = answer
-       return isAnsweredCorrectly
+        return isAnsweredCorrectly
     }
 
-    fun getOptions():List<String> {
+    fun getOptions(): List<String> {
         return listOf(
             correctOption,
             incorrectOption

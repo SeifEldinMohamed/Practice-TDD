@@ -4,16 +4,19 @@ val QUESTIONS_MOCK: List<Question> = listOf(
     Question(
         "what is the capital of egypt?",
         "correct",
-        "incorrect"
+        "incorrect",
+        "image1"
     ),
     Question(
         "what is the capital of USA?",
         "correct",
-        "incorrect"
+        "incorrect",
+        "image2"
     ),
     Question(
         "what is the capital of France?",
         "correct",
-        "incorrect"
+        "incorrect",
+        "image3"
     )
 )

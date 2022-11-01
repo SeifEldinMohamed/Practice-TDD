@@ -33,14 +33,15 @@ class GameTest {
     fun `nextQuestion(), with available next question, then return next question` () {
         // Arrange
         val game = Game(QUESTIONS_MOCK)
-        val expected = Question(
-            "what is the capital of USA?",
-            "Washington",
-            "New York"
+        val expected =  Question(
+            "what is the capital of egypt?",
+            "Cairo",
+            "Giza",
+            "image1"
         )
 
         // Act
-        val actual = game.nextQuestion(0)
+        val actual = game.nextQuestion()
 
         // Assert
         Assert.assertEquals(expected.question, actual?.question)
@@ -49,10 +50,10 @@ class GameTest {
     @Test
     fun `nextQuestion(), with final question reached, then return null` () {
         // Arrange
-        val game = Game(QUESTIONS_MOCK)
+        val game = Game(emptyList())
 
         // Act
-        val actual = game.nextQuestion(QUESTIONS_MOCK.size - 1)
+        val actual = game.nextQuestion()
 
         // Assert
         Assert.assertNull(actual)
