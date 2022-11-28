@@ -6,20 +6,24 @@ import com.raywenderlich.android.cocktails.common.repository.Repository
 import com.raywenderlich.android.cocktails.common.repository.RepositoryImpl
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.*
 
+@RunWith(MockitoJUnitRunner::class) // to instruct that you are going to write tests using Mockito.
 class RepositoryTest {
     private lateinit var repository: Repository
+    @Mock
     private lateinit var api: CocktailsApi
+    @Mock
     private lateinit var sharedPreferences: SharedPreferences
+    @Mock
     private lateinit var sharedPreferencesEditor: SharedPreferences.Editor
 
     @Before
     fun setup() {
         // Arrange
-        api = mock()
-        sharedPreferences = mock()
-        sharedPreferencesEditor = mock()
         whenever(sharedPreferences.edit())
             .thenReturn(sharedPreferencesEditor)
         repository = RepositoryImpl(api, sharedPreferences)
