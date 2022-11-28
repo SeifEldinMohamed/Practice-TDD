@@ -20,6 +20,9 @@ class CocktailsGameViewModel(
     private val questionLiveData = MutableLiveData<Question>()
     private val scoreLiveData = MutableLiveData<Score>()
 
+    private var _finishGame = MutableLiveData<Boolean>()
+    val finishGame: LiveData<Boolean> = _finishGame
+
     fun getLoading(): LiveData<Boolean> = loadingLiveData
     fun getError(): LiveData<Boolean> = errorLiveData
     fun getQuestion(): LiveData<Question> = questionLiveData
@@ -56,6 +59,9 @@ class CocktailsGameViewModel(
             repository.saveHighScore(it.score.highest)
             scoreLiveData.value = it.score
             questionLiveData.value = question
+
+            _finishGame.value = it.score.wrongAnswerCounter == 3
+
         }
     }
 }
