@@ -5,11 +5,16 @@ class Score(highestScore: Int = 0) {
         private set
     var highest = highestScore
         private set
-
+    var wrongAnswerCounter = 0
+        private set
     fun increment() {
         current++
         if (current > highest) {
             highest = current
         }
+    }
+
+    fun incrementWrongAnswer(){
+        wrongAnswerCounter++
     }
 }

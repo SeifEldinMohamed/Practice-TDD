@@ -14,6 +14,9 @@ class Game(private val questions: List<Question>, val score: Score = Score(0)) {
         if (question.addAnswer(option)) {
             score.increment()
         }
+        else { // wrong answer
+            score.incrementWrongAnswer()
+        }
     }
 
 }

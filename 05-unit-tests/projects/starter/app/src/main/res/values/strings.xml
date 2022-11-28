@@ -40,4 +40,7 @@
   <string name="game_score">Score: %1$d</string>
   <string name="game_highscore">Highscore: %1$d</string>
   <string name="game_question_title">What is the name of this cocktail?</string>
+    <string name="you_loosed_game_finished">You Loosed, Game Finished</string>
+  <string name="todo">TODO</string>
+  <string name="coctail_image">cocktail image</string>
 </resources>
