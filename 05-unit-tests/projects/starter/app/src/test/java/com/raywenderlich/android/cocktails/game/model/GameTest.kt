@@ -2,9 +2,13 @@ package com.raywenderlich.android.cocktails.game.model
 
 import org.junit.Assert
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.ArgumentMatchers.anyString
+import org.mockito.Mock
+import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.*
 
+@RunWith(MockitoJUnitRunner::class)
 class GameTest {
     /*
         private fun createQuestionsList(): List<Question> {
@@ -28,12 +32,16 @@ class GameTest {
     }
      */
 
+    @Mock
+    private lateinit var question: Question
+    @Mock
+    private lateinit var score: Score
 
     @Test
-    fun `nextQuestion(), with available next question, then return next question` () {
+    fun `nextQuestion(), with available next question, then return next question`() {
         // Arrange
         val game = Game(QUESTIONS_MOCK)
-        val expected =  Question(
+        val expected = Question(
             "what is the capital of egypt?",
             "Cairo",
             "Giza",
@@ -48,7 +56,7 @@ class GameTest {
     }
 
     @Test
-    fun `nextQuestion(), with final question reached, then return null` () {
+    fun `nextQuestion(), with final question reached, then return null`() {
         // Arrange
         val game = Game(emptyList())
 
@@ -60,28 +68,26 @@ class GameTest {
     }
 
     @Test
-    fun `answer(), when answering, then delegate to question` () {
+    fun `answer(), when answering, then delegate to question`() {
         // Arrange
-        val question = mock<Question>()
         val game = Game(listOf(question))
         // Act
         game.answer(question, "Option")
         // Assert
-       // verify(question, times(1)).answer(eq("Option")) // You can omit times(1) as it’s the default
+        // verify(question, times(1)).answer(eq("Option")) // You can omit times(1) as it’s the default
         verify(question).addAnswer(eq("Option"))
     }
 
     @Test
-    fun `answer(), when answering right answer, then current score should increase` () {
+    fun `answer(), when answering right answer, then current score should increase`() {
         // Arrange
-        val question = mock<Question>()
         whenever(question.addAnswer(anyString())).thenReturn(true)
         // Using whenever/method/thenReturn you’re
         // stubbing the question.answer() method to always return true. Notice here
         // you used the anyString() argument matcher as you don’t care which specific
-        val score = mock<Score>()
+
         // String you need to stub the call
-        val game = Game(listOf(question),score)
+        val game = Game(listOf(question), score)
         // Act
         game.answer(question, "Option")
         // Assert
@@ -89,17 +95,26 @@ class GameTest {
     }
 
     @Test
-    fun `answer(), when answering wrong answer, then current score should not increase` () {
+    fun `answer(), when answering wrong answer, then current score should not increase`() {
         // Arrange
-        val question = mock<Question>()
         whenever(question.addAnswer(anyString())).thenReturn(false)
 
-        val score = mock<Score>()
-        val game = Game(listOf(question),score)
+        val game = Game(listOf(question), score)
         // Act
         game.answer(question, "Option")
         // Assert
         verify(score, never()).increment()
+    }
+
+    @Test
+    fun `answer(), when answering wrong answer, then wrongAnswerCounter should increase`(){
+        // Arrange
+        val game = Game(listOf(question), score)
+        // Act
+        game.answer(question, "wrong answer")
+        // Assert
+        verify(score).incrementWrongAnswer()
+
     }
     /*
     Verify the method answer() was called on the Question mock. You used the

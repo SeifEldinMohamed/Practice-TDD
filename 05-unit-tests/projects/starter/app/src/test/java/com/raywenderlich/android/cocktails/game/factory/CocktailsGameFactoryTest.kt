@@ -8,15 +8,20 @@ import com.raywenderlich.android.cocktails.game.model.Question
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
 import org.mockito.Mockito.doAnswer
-import org.mockito.Mockito.mock
+import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.verify
 import org.mockito.kotlin.whenever
 
+@RunWith(MockitoJUnitRunner::class)
 class CocktailsGameFactoryTest {
+    @Mock
     private lateinit var repository: Repository
+
     private lateinit var factory: CocktailsGameFactory
 
     private val cocktails = listOf(
@@ -28,7 +33,6 @@ class CocktailsGameFactoryTest {
 
     @Before
     fun setup() {
-        repository = mock()
         factory = CocktailsGameFactoryImpl(repository)
     }
 
@@ -158,6 +162,5 @@ class CocktailsGameFactoryTest {
             question?.incorrectOption
         )
     }
-
 
 }

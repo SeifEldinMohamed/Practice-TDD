@@ -11,40 +11,44 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.junit.MockitoJUnitRunner
 import org.mockito.kotlin.*
 
+@RunWith(MockitoJUnitRunner::class)
 class CocktailsGameViewModelTest {
     @get:Rule
     val taskExecutorRule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
+    @Mock
     private lateinit var repository: Repository
+    @Mock
     private lateinit var factory: CocktailsGameFactory
-    private lateinit var viewModel: CocktailsGameViewModel
+    @Mock
     private lateinit var game: Game
-
+    @Mock
     private lateinit var loadingObserver: Observer<Boolean>
+    @Mock
     private lateinit var errorObserver: Observer<Boolean>
+    @Mock
     private lateinit var scoreObserver: Observer<Score>
+    @Mock
     private lateinit var questionObserver: Observer<Question>
+    @Mock
+    private lateinit var finishGameObserver: Observer<Boolean>
+
+    private lateinit var viewModel: CocktailsGameViewModel
 
     @Before
     fun setup() {
-        // 1
-        repository = mock()
-        factory = mock()
         viewModel = CocktailsGameViewModel(repository, factory)
-        // 2
-        game = mock()
-        // 3
-        loadingObserver = mock()
-        errorObserver = mock()
-        scoreObserver = mock()
-        questionObserver = mock()
 
         viewModel.getLoading().observeForever(loadingObserver)
         viewModel.getScore().observeForever(scoreObserver)
         viewModel.getQuestion().observeForever(questionObserver)
         viewModel.getError().observeForever(errorObserver)
+        viewModel.finishGame.observeForever(finishGameObserver)
     }
 
     private fun setUpFactoryWithSuccessGame(game: Game) {
@@ -113,7 +117,7 @@ class CocktailsGameViewModelTest {
     }
 
     @Test
-    fun `init(), when Factory Returns Success, then should ShowS core`() {
+    fun `init(), when Factory Returns Success, then should Shows core`() {
         val score = mock<Score>()
         whenever(game.score).thenReturn(score)
         setUpFactoryWithSuccessGame(game)
@@ -160,6 +164,25 @@ class CocktailsGameViewModelTest {
         // inOrder(): Creates InOrder object that allows verifying mocks in order. Accepts a lambda to allow easy evaluation.
         // ( to check the methods are called exactly in the specified order )
     }
+
+    @Test
+    fun `answerQuestion(), when answer a question and wrong counter is not equal to 3, then finishGame should equal to false`() {
+        // Arrange
+        val score = mock<Score>()
+        val question = mock<Question>()
+        whenever(game.score).thenReturn(score)
+        whenever(game.score.wrongAnswerCounter).thenReturn(1)
+        setUpFactoryWithSuccessGame(game)
+        viewModel.initGame()
+        // Act
+        viewModel.answerQuestion(question, "VALUE")
+        // Assert
+        verify(finishGameObserver).onChanged(eq(false))
+
+        // inOrder(): Creates InOrder object that allows verifying mocks in order. Accepts a lambda to allow easy evaluation.
+        // ( to check the methods are called exactly in the specified order )
+    }
+
 }
 
 /**
